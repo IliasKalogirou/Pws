@@ -14,6 +14,45 @@ PLAYER_SPEED = 5
 
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
+#Speler maken
+class Player(pygame.sprite.Sprite):
+    COLOR = (255, 0, 0)
+
+
+
+    def __init__(self, x, y, width, height):
+        self.rect = pygame.Rect(x, y, width, height)
+        self.x_vel = 0
+        self.y_vel = 0
+        self.mask = None
+        self.direction = "left"
+        self.animation_count = 0
+
+    def move(self, dx, dy):
+        self.rect.x += dx
+        self.rect.y += dy
+
+#bewegen naar links
+    def move_left(self, vel):
+        self.x_vel = -vel
+        if self.direction != "left":
+            self.direction = "left"
+            self.animation_count = 0
+
+#bewegen naar rechts
+    def move_right(self, vel):
+        self.x_vel = vel
+         if self.direction != "right":
+            self.direction = "right"
+            self.animation_count = 0
+
+    def loop(self, fps):
+        self.move(self.x_vel, self.y_vel)
+
+    def draw(self, window):
+        pygame.draw.rect(window, self.COLOR, self.rect)
+
+
 #Achtergrond gaat over de hele scherm
 def get_background(name):
     image = pygame.image.load(join("achtergrond", "galaxy.png"))
@@ -28,15 +67,19 @@ def get_background(name):
 
 
 #Steeds nieuwe achtergrond tekenen bij elke beweging
-def draw(window, background, bg_image):
+def draw(window, background, bg_image, player):
     for tile in background:
         window.blit(bg_inage, tile)
+
+    player.draw(window)
 
     pygame.display.update()
 
 def main(window):
     clock = pygame.time.Clock()
     background, bg_image = get_background("galaxy.png")
+
+    player = Player(100, 100, 50, 50)
 
 #While loop
     run = True
@@ -46,7 +89,7 @@ def main(window):
                 run = False
                 break
         
-        draw(window, background, bg_image)  
+        draw(window, background, bg_image, player)  
     
     #Juiste fps
     clock.tick(FPS)
