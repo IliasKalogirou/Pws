@@ -261,7 +261,8 @@ def main(window):
         handle_move(player, objects)
         draw(window, background, bg_image, player, objects, offset_x)  
 
-        if ((player.rect.right - offset_x >= WIDTH - scroll_area_width) and player.x_speed > 0) or ((player.rect.left - offset_x <= scroll_area_width) and player.x_speed < 0):
+        if ((player.rect.right - offset_x >= WIDTH - scroll_area_width) and player.x_speed > 0) 
+            or ((player.rect.left - offset_x <= scroll_area_width) and player.x_speed < 0):
             offset_x += player.x_speed
     
     #Juiste fps
